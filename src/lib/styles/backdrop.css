@@ -2,11 +2,14 @@
  * MIT Licence — (c) Clove Twilight
  */
 
-/* Same layers as the site header's .backdrop, stretched behind the whole window */
+/* Same banner as the site header's .backdrop: top of the page, fading into the background */
 .backdrop {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
   z-index: -1;
+  height: 30rem;
   overflow: hidden;
   pointer-events: none;
 }

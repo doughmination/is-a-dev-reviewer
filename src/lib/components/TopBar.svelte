@@ -78,6 +78,7 @@
   .tab {
     padding: 0.3rem 0.9rem;
     border-radius: 999px;
+    white-space: nowrap;
     color: var(--muted);
     text-decoration: none;
   }
