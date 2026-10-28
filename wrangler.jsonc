@@ -1,0 +1,45 @@
+// wrangler.jsonc
+// MIT Licence — (c) Clove Twilight
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "reviewer",
+  "main": ".svelte-kit/cloudflare/_worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".svelte-kit/cloudflare"
+  },
+
+  // Sessions: OIDC identity, GitHub token, access flags
+  "kv_namespaces": [
+    {
+      "binding": "SESSIONS",
+      "id": "1c06e6b167dd46149591c837aadc4816"
+    }
+  ],
+
+  // Music videos, one folder per GitHub user
+  "r2_buckets": [
+    {
+      "binding": "MUSIC",
+      "bucket_name": "reviewer-music"
+    }
+  ],
+
+  // Headless Chromium for site screenshots
+  "browser": {
+    "binding": "BROWSER"
+  },
+
+  // Secrets (wrangler secret put): OIDC_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+  "vars": {
+    "OIDC_ISSUER": "https://auth.doughmination.gay",
+    "OIDC_CLIENT_ID": "reviewer"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

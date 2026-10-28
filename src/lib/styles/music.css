@@ -1,0 +1,505 @@
+/* lib/styles/music.css
+ * MIT Licence — (c) Clove Twilight
+ */
+
+/* Music */
+
+.music {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding-block: 2rem;
+}
+
+.mu-heading {
+	margin: 1.25rem 0 0;
+	color: var(--accent);
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.mu-heading-row {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 1.25rem;
+}
+
+.mu-heading-row .mu-heading {
+	margin: 0;
+}
+
+.mu-empty {
+	margin: 0;
+	color: var(--muted);
+	font-style: italic;
+}
+
+.mu-art-blank {
+	display: grid;
+	place-items: center;
+	background: var(--line);
+	color: var(--muted);
+}
+
+.mu-art-blank svg {
+	width: 45%;
+	height: 45%;
+}
+
+/* Now playing */
+
+.mu-card {
+	position: relative;
+	display: flex;
+	gap: 1.25rem;
+	align-items: center;
+	padding: 1.25rem;
+	overflow: hidden;
+	isolation: isolate;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	background: var(--raised);
+	color: var(--text);
+	text-decoration: none;
+	transition:
+		border-color 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+.mu-card::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: radial-gradient(120% 140% at 0% 0%, rgb(235 69 158 / 18%), transparent 60%);
+	opacity: 0;
+	transition: opacity 0.6s ease;
+}
+
+.music.live .mu-card {
+	border-color: rgb(235 69 158 / 40%);
+	box-shadow: 0 0 0 4px var(--accent-dim);
+}
+
+.music.live .mu-card::before {
+	opacity: 1;
+}
+
+.mu-art {
+	flex: 0 0 auto;
+	width: 8rem;
+	height: 8rem;
+	border-radius: 0.75rem;
+	object-fit: cover;
+}
+
+.mu-meta {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.mu-state {
+	display: flex;
+	gap: 0.4rem;
+	align-items: center;
+	margin: 0 0 0.35rem;
+	color: var(--muted);
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.music.live .mu-state {
+	color: var(--accent);
+}
+
+.mu-song,
+.mu-artist,
+.mu-album {
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mu-song {
+	font-size: 1.35rem;
+	font-weight: 600;
+	line-height: 1.25;
+	transition: color 0.2s ease;
+}
+
+a.mu-card:hover .mu-song {
+	color: var(--accent);
+}
+
+.mu-artist {
+	font-size: 0.95rem;
+}
+
+.mu-album {
+	color: var(--muted);
+	font-size: 0.85rem;
+}
+
+.mu-progress {
+	display: flex;
+	gap: 0.6rem;
+	align-items: center;
+	margin-top: 0.8rem;
+}
+
+.mu-bar {
+	flex: 1;
+	height: 0.35rem;
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--line);
+}
+
+.mu-fill {
+	height: 100%;
+	border-radius: inherit;
+	background: var(--accent);
+	transition: width 0.25s linear;
+}
+
+.mu-time {
+	color: var(--muted);
+	font-size: 0.75rem;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Sync toggle */
+
+.mu-sync {
+	display: inline-flex;
+	gap: 0.45rem;
+	align-items: center;
+	padding: 0.3rem 0.8rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--raised);
+	color: var(--muted);
+	font: inherit;
+	font-size: 0.75rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition:
+		color 0.15s ease,
+		border-color 0.15s ease,
+		background 0.15s ease;
+}
+
+.mu-sync:hover {
+	border-color: rgb(235 69 158 / 40%);
+	color: var(--text);
+}
+
+.mu-sync.on {
+	border-color: var(--accent);
+	background: var(--accent-dim);
+	color: var(--accent);
+}
+
+.mu-sync:focus-visible {
+	outline: 2px solid var(--text);
+	outline-offset: 2px;
+}
+
+.mu-eq {
+	display: inline-flex;
+	gap: 2px;
+	align-items: flex-end;
+	width: 0.8rem;
+	height: 0.7rem;
+}
+
+.mu-eq span {
+	flex: 1;
+	height: 100%;
+	background: currentColor;
+	opacity: 0.55;
+	transform: scaleY(0.4);
+	transform-origin: bottom;
+}
+
+.mu-sync.on .mu-eq span {
+	opacity: 1;
+	animation: mu-eq 0.9s ease-in-out infinite;
+}
+
+.mu-sync.on .mu-eq span:nth-child(2) {
+	animation-delay: 0.15s;
+}
+
+.mu-sync.on .mu-eq span:nth-child(3) {
+	animation-delay: 0.3s;
+}
+
+.mu-sync.on .mu-eq span:nth-child(4) {
+	animation-delay: 0.45s;
+}
+
+@keyframes mu-eq {
+	0%,
+	100% {
+		transform: scaleY(0.3);
+	}
+
+	50% {
+		transform: scaleY(1);
+	}
+}
+
+/* Lyrics */
+
+.mu-lyrics {
+	position: relative;
+	height: 21rem;
+	padding: 1.5rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	background: var(--raised);
+	scrollbar-color: rgb(235 69 158 / 40%) transparent;
+	scrollbar-width: thin;
+	mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
+}
+
+.mu-lyrics:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.mu-lyrics:not([data-kind='synced'], [data-kind='plain']) {
+	display: grid;
+	place-content: center;
+	height: 11rem;
+	mask-image: none;
+}
+
+.mu-line {
+	margin: 0;
+	padding: 0.3rem 0;
+	color: var(--muted);
+	font-size: 1.2rem;
+	line-height: 1.4;
+	transition:
+		color 0.3s ease,
+		opacity 0.3s ease,
+		transform 0.3s ease;
+}
+
+[data-kind='synced'] .mu-line {
+	opacity: 0.55;
+}
+
+[data-kind='synced'] .mu-line.active {
+	color: var(--accent);
+	font-weight: 600;
+	opacity: 1;
+	transform: translateX(2px);
+}
+
+[data-kind='plain'] .mu-line {
+	color: var(--text);
+	font-size: 1.05rem;
+}
+
+.mu-note {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin: 0;
+	color: var(--muted);
+	text-align: center;
+}
+
+.mu-note svg {
+	width: 1em;
+	height: 1em;
+}
+
+[data-kind='instrumental'] .mu-note {
+	color: var(--accent);
+	font-size: 1.2rem;
+}
+
+/* Recently played */
+
+.mu-recent {
+	display: grid;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.mu-recent-item {
+	display: grid;
+	grid-template-columns: 2.75rem 1fr auto;
+	gap: 0.75rem;
+	align-items: center;
+	padding: 0.45rem 0.6rem;
+	border-radius: 0.75rem;
+	color: var(--text);
+	text-decoration: none;
+	transition: background 0.15s ease;
+}
+
+.mu-recent-item:hover {
+	background: var(--raised);
+	color: var(--text);
+}
+
+.mu-recent-item.playing {
+	background: var(--accent-dim);
+}
+
+.mu-recent-art {
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 0.5rem;
+	object-fit: cover;
+}
+
+.mu-recent-text {
+	min-width: 0;
+}
+
+.mu-recent-name,
+.mu-recent-artist {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mu-recent-name {
+	font-size: 0.95rem;
+	font-weight: 500;
+}
+
+.mu-recent-artist {
+	color: var(--muted);
+	font-size: 0.8rem;
+}
+
+.mu-recent-when {
+	color: var(--muted);
+	font-size: 0.75rem;
+	white-space: nowrap;
+}
+
+.mu-recent-item.playing .mu-recent-when {
+	color: var(--accent);
+	font-weight: 600;
+}
+
+/* Top artists */
+
+.mu-top {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.mu-top-item {
+	display: inline-flex;
+	gap: 0.55rem;
+	align-items: center;
+	padding: 0.35rem 0.9rem 0.35rem 0.75rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--raised);
+	color: var(--text);
+	text-decoration: none;
+	transition: border-color 0.15s ease;
+}
+
+.mu-top-item:hover {
+	border-color: rgb(235 69 158 / 40%);
+	color: var(--text);
+}
+
+.mu-top-rank {
+	color: var(--accent);
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+.mu-top-art {
+	flex: none;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.mu-top-text {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.2;
+}
+
+.mu-top-name {
+	font-size: 0.85rem;
+	font-weight: 500;
+}
+
+.mu-top-plays {
+	color: var(--muted);
+	font-size: 0.72rem;
+}
+
+@media (max-width: 30rem) {
+	.mu-card {
+		gap: 0.9rem;
+		padding: 1rem;
+	}
+
+	.mu-art {
+		width: 5.5rem;
+		height: 5.5rem;
+	}
+
+	.mu-song {
+		font-size: 1.1rem;
+	}
+
+	.mu-lyrics {
+		height: 18rem;
+	}
+
+	.mu-line {
+		font-size: 1.05rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mu-card,
+	.mu-card::before,
+	.mu-song,
+	.mu-fill,
+	.mu-sync,
+	.mu-line,
+	.mu-recent-item,
+	.mu-top-item {
+		transition: none;
+	}
+
+	.mu-sync.on .mu-eq span {
+		animation: none;
+		transform: scaleY(0.65);
+	}
+}

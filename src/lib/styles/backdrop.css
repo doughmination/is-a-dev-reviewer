@@ -1,0 +1,29 @@
+/* lib/styles/backdrop.css
+ * MIT Licence — (c) Clove Twilight
+ */
+
+/* Same layers as the site header's .backdrop, stretched behind the whole window */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/background.avif") center / cover no-repeat;
+  opacity: 0.5;
+}
+
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgb(11 10 13 / 55%), rgb(11 10 13 / 80%) 55%, var(--bg)),
+    radial-gradient(70% 60% at 20% 30%, rgb(235 69 158 / 12%), transparent 70%);
+}

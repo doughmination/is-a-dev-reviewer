@@ -1,0 +1,36 @@
+{
+  "name": "clove-reviewer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "review queue for is-a-dev/register and free-domains/is-a.bot prs, sveltekit on cloudflare workers",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "bun run build && wrangler dev",
+    "deploy": "bun run build && wrangler deploy",
+    "types": "wrangler types",
+    "test": "bun test",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261028.1",
+    "@sveltejs/adapter-cloudflare": "8.0.1",
+    "@sveltejs/kit": "3.1.0",
+    "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "@types/bun": "^1.4.4",
+    "svelte": "5.57.3",
+    "svelte-check": "4.7.7",
+    "typescript": "~6.0.3",
+    "vite": "8.3.5",
+    "wrangler": "4.154.0"
+  },
+  "dependencies": {
+    "@cloudflare/puppeteer": "1.4.0",
+    "oauth4webapi": "3.8.8"
+  },
+  "imports": {
+    "#lib/*": "./src/lib/*"
+  }
+}
