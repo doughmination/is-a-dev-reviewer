@@ -7,9 +7,13 @@ import { redirect } from "@sveltejs/kit";
 import type { Handle } from "@sveltejs/kit/hooks";
 
 import { ACCESS_RECHECK_MS, checkAccess } from "#lib/server/githubAuth.ts";
-import { readSession, SESSION_COOKIE, writeSession } from "#lib/server/session.ts";
+import {
+  readSession,
+  SESSION_COOKIE,
+  writeSession,
+} from "#lib/server/session.ts";
 
-const PUBLIC_PREFIXES = ["/auth/"];
+const PUBLIC_PREFIXES = ["/auth/", "/welcome"];
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 
 const isApi = (path: string) => path.startsWith("/api/");
@@ -24,10 +28,17 @@ export const handle: Handle = async ({ event, resolve }) => {
   const path = url.pathname;
 
   event.locals.sessionId = cookies.get(SESSION_COOKIE) ?? null;
-  event.locals.session = await readSession(env.SESSIONS, event.locals.sessionId ?? undefined);
+  event.locals.session = await readSession(
+    env.SESSIONS,
+    event.locals.sessionId ?? undefined,
+  );
 
   // Cookie-authed writes must come from this site
-  if (isApi(path) && !SAFE_METHODS.has(request.method) && request.headers.get("origin") !== url.origin) {
+  if (
+    isApi(path) &&
+    !SAFE_METHODS.has(request.method) &&
+    request.headers.get("origin") !== url.origin
+  ) {
     return new Response("cross-site request refused", { status: 403 });
   }
 
@@ -36,17 +47,32 @@ export const handle: Handle = async ({ event, resolve }) => {
     const returnTo = encodeURIComponent(path + url.search);
 
     if (!session) {
-      const denied = deny(path, 401, "sign in first", `/auth/login?returnTo=${returnTo}`);
+      // The welcome page carries the link preview, so crawlers land there too
+      const denied = deny(
+        path,
+        401,
+        "sign in first",
+        `/welcome?returnTo=${returnTo}`,
+      );
       if (denied) return denied;
     }
 
     if (session && !session.github) {
-      const denied = deny(path, 401, "link github first", `/auth/github?returnTo=${returnTo}`);
+      const denied = deny(
+        path,
+        401,
+        "link github first",
+        `/auth/github?returnTo=${returnTo}`,
+      );
       if (denied) return denied;
     }
 
     // Org membership can change, so look again every few minutes
-    if (session?.github && (!session.access || Date.now() - session.access.checkedAt > ACCESS_RECHECK_MS)) {
+    if (
+      session?.github &&
+      (!session.access ||
+        Date.now() - session.access.checkedAt > ACCESS_RECHECK_MS)
+    ) {
       session.access = await checkAccess(session.github.token);
       await writeSession(env.SESSIONS, event.locals.sessionId!, session);
     }

@@ -62,7 +62,8 @@ button:disabled {
   cursor: default;
 }
 
-button.primary {
+button.primary,
+a.button.primary {
   background: var(--accent);
   color: var(--on-accent);
   border-color: var(--accent);
