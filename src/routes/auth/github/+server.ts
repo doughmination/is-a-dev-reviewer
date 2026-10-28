@@ -24,5 +24,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     returnTo,
   });
 
-  redirect(303, githubLoginUrl(env, `${url.origin}/auth/github/callback`, state).toString());
+  redirect(303, githubLoginUrl(env, `${url.origin}/auth/github/callback`, state).toString(), {
+    external: ["https://github.com"],
+  });
 };

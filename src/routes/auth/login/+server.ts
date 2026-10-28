@@ -25,5 +25,6 @@ export const GET: RequestHandler = async ({ url }) => {
     returnTo: safeReturnTo(url.searchParams.get("returnTo")),
   });
 
-  redirect(303, login.url.toString());
+  // Kit 3 refuses external redirects unless the origin is allowed explicitly
+  redirect(303, login.url.toString(), { external: [new URL(env.OIDC_ISSUER).origin] });
 };
